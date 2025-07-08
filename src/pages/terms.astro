@@ -1,0 +1,55 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { sortTerms } from "../utils/sortTerms";
+
+// 全記事の frontmatter からカテゴリ・タグを収集
+const postFiles = import.meta.glob('../blog/*.{md,mdx}', { eager: true });
+const categorySet = new Set<string>();
+const tagSet      = new Set<string>();
+
+for (const path in postFiles) {
+  const { frontmatter } = postFiles[path] as any;
+  frontmatter.categories?.forEach((c: string) => categorySet.add(c));
+  frontmatter.tags?.forEach((t: string)      => tagSet.add(t));
+}
+
+const categories = sortTerms(Array.from(categorySet));
+const tags       = sortTerms(Array.from(tagSet));
+const pageTitle  = "Terms";
+---
+
+<BaseLayout pageTitle={pageTitle}>
+  <div class="max-w-3xl mx-auto px-8 py-16 w-full">
+    <h1 data-scramble class="text-3xl font-bold mb-6">{pageTitle}</h1>
+    <section class="space-y-8">
+      <div class="bg-[var(--color-bg)] border border-[var(--color-border)] rounded-xl p-6">
+        <h2 class="text-2xl font-bold mb-4">Categories</h2>
+        <ul class="list-disc list-inside space-y-2 ml-4">
+          {categories.map(category => (
+            <li>
+              <a
+              href={`/terms/categories/${encodeURIComponent(category)}`}
+              class="font-semibold text-[var(--color-accent)] transition-opacity duration-200 hover:opacity-70"
+              >{category}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div class="bg-[var(--color-bg)] border border-[var(--color-border)] rounded-xl p-6">
+        <h2 class="text-2xl font-bold mb-4">Tags</h2>
+        <ul class="list-disc list-inside space-y-2 ml-4">
+          {tags.map(tag => (
+            <li>
+              <a
+              href={`/terms/tags/${encodeURIComponent(tag)}`}
+              class="font-semibold text-[var(--color-accent)] transition-opacity duration-200 hover:opacity-70"
+              >{tag}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  </div>
+</BaseLayout>

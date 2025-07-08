@@ -1,0 +1,204 @@
+.content {
+  /* 見出し */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin: 1.75em 0 0 0;
+    font-weight: bold;
+    line-height: 1.3;
+  }
+  h1 {
+    font-size: 2rem;
+  }
+  h2 {
+    border-bottom: 1px dotted var(--color-border);
+    font-size: 1.5rem;
+    padding-bottom: 0.25em;
+  }
+  h3 {
+    font-size: 1.15rem;
+  }
+  h4 {
+    font-size: 1rem;
+  }
+  h5 {
+    font-size: 1rem;
+  }
+  h6 {
+    font-size: 1rem;
+  }
+
+  /* 段落・リンク */
+  p {
+    margin: 1em 0;
+  }
+  a {
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-underline-offset: 0.25em;
+    transition: 0.2s;
+    &:hover {
+      opacity: 0.7;
+      text-decoration: none;
+    }
+  }
+
+  /* リスト & タスクリスト */
+  ul,
+  ol {
+    margin: 0.5em 0 0.5em 1.5em;
+    li {
+      margin: 0.5em 0;
+      &.task-list-item {
+        list-style: none;
+        display: flex;
+        align-items: center;
+        input[type="checkbox"] {
+          margin-right: 0.5em;
+          transform: scale(1.2);
+        }
+      }
+    }
+  }
+
+  /* 1階層目 */
+  ul {
+    list-style-type: disc;
+  }
+  ol {
+    list-style-type: decimal;
+    li {
+      &::marker {
+        font-weight: 600;
+      }
+    }
+  }
+
+  /* 2階層目 */
+  ul ul,
+  ul ol,
+  ol ul,
+  ol ol {
+    list-style-type: circle;
+  }
+  ol ul,
+  ol ol {
+    list-style-type: lower-roman;
+  }
+
+  /* 3階層目 */
+  ul ul ul,
+  ul ul ol,
+  ul ol ul,
+  ul ol ol,
+  ol ul ul,
+  ol ul ol,
+  ol ol ul,
+  ol ol ol {
+    list-style-type: square;
+  }
+  ol ol ul,
+  ol ol ol {
+    list-style-type: lower-alpha;
+  }
+
+  /* 強調・打ち消し線 */
+  em,
+  i {
+    font-style: italic;
+  }
+  strong,
+  b {
+    font-weight: bold;
+  }
+  del,
+  s {
+    text-decoration: line-through;
+  }
+
+  /* コード */
+  code {
+    border-radius: 4px;
+    background: var(--color-hover);
+    color: var(--color-accent);
+    font-family: "Consolas", monospace;
+    font-size: 0.9em;
+    padding: 0.2em 0.4em;
+  }
+
+  /* ブロック引用 */
+  blockquote {
+    color: var(--color-subtext);
+    border-left: 4px solid var(--color-border);
+    border-radius: 4px;
+    margin: 1em 0;
+    padding-left: 1em;
+  }
+
+  /* テーブル */
+  table {
+    border-collapse: collapse;
+    margin: 1.5em 0;
+    text-align: left;
+    width: 100%;
+    th,
+    td {
+      border: 1px solid var(--color-border);
+      padding: 0.5em 1em;
+    }
+    th {
+      background: var(--color-hover);
+    }
+    tr:nth-child(even) {
+      background: var(--color-bg);
+    }
+  }
+
+  /* 水平線 */
+  hr {
+    border-top: 1px solid var(--color-border);
+    margin: 2em 0;
+  }
+
+  /* 画像 */
+  img {
+    border-radius: 8px;
+    display: block;
+    height: auto;
+    margin: 1em 0;
+    max-height: 512px;
+    max-width: 100%;
+  }
+
+  /* 定義リスト */
+  dl {
+    margin: 1em 0;
+    dt {
+      font-weight: bold;
+      margin-top: 1em;
+    }
+    dd {
+      margin-left: 1.5em;
+      margin-bottom: 0.75em;
+    }
+  }
+
+  /* 埋め込み iframe（YouTube など） */
+  iframe {
+    aspect-ratio: 16 / 9;
+    border: none;
+    margin: 1em 0;
+    width: 100%;
+  }
+
+  /* リンクテキストの前後に括弧を追加 */
+  sup a::before {
+    content: "[";
+  }
+  sup a::after {
+    content: "]";
+  }
+}

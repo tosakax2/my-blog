@@ -1,0 +1,57 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+import styles from '../styles/content.module.scss';
+import { sortTerms } from '../utils/sortTerms';
+
+export interface Props {
+  frontmatter: {
+    title: string;
+    date: string;
+    categories?: string[];
+    tags?: string[];
+  };
+}
+
+const { frontmatter } = Astro.props;
+---
+
+<BaseLayout pageTitle={frontmatter.title}>
+  <div class="max-w-3xl mx-auto px-8 py-8 w-full">
+    <article class="my-12 bg-[var(--color-bg)] border border-[var(--color-border)] rounded-xl px-8 pt-8 pb-6">
+      <h1 data-scramble class="text-3xl font-bold mb-2">{frontmatter.title}</h1>
+      <time class="text-[var(--color-subtext)] text-sm" datetime={frontmatter.date}>
+        {String(frontmatter.date).slice(0, 10)}
+      </time>
+      {frontmatter.categories && frontmatter.categories.length > 0 && (
+        <div class="flex items-center gap-2 mt-4">
+          <span class="text-sm text-[var(--color-subtext)] font-semibold">Categories:</span>
+          {sortTerms(frontmatter.categories).map(category => (
+            <a
+              href={`/terms/categories/${encodeURIComponent(category)}`}
+              class="bg-[var(--color-accent)] text-stone-50 px-2 py-0.5 rounded text-xs transition-opacity duration-200 hover:opacity-70"
+            >
+              {category}
+            </a>
+          ))}
+        </div>
+      )}
+      {frontmatter.tags && frontmatter.tags.length > 0 && (
+        <div class="flex items-center gap-2 my-2">
+          <span class="text-sm text-[var(--color-subtext)] font-semibold">Tags:</span>
+          {sortTerms(frontmatter.tags).map(tag => (
+            <a
+              href={`/terms/tags/${encodeURIComponent(tag)}`}
+              class="border border-[var(--color-accent)] text-[var(--color-accent)] px-2 py-0.5 rounded text-xs transition-opacity duration-200 hover:opacity-70"
+            >
+              #{tag}
+            </a>
+          ))}
+        </div>
+      )}
+      <section class={styles.content}>
+        <hr />
+        <slot />
+      </section>
+    </article>
+  </div>
+</BaseLayout>

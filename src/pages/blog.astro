@@ -1,0 +1,88 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { hashTitle } from "../utils/hashTitle";
+import { sortTerms } from "../utils/sortTerms";
+
+// Markdownファイルを全部取得
+const postFiles = import.meta.glob('../blog/*.{md,mdx}', { eager: true });
+
+// 一覧データを生成
+const posts = Object.entries(postFiles).map(([path, mod]) => {
+  const typedMod = mod as {
+    frontmatter: {
+      title: string;
+      date: string;
+      description?: string;
+      slug?: string;
+      categories?: string[];
+      tags?: string[];
+    };
+    Content: any;
+  };
+  // 日付をYYYYMMDD形式で取得
+  const date = typedMod.frontmatter.date.replace(/-/g, '').slice(0, 8);
+  // ハッシュslug
+  const hash = hashTitle(typedMod.frontmatter.title);
+  // slug: frontmatter.slug > 日付＋ハッシュ
+  const slug = typedMod.frontmatter.slug || `${date}-${hash}`;
+  return {
+    ...typedMod,
+    url: `/blog/${slug}`,
+    slug,
+  };
+});
+
+// 任意: 日付で降順ソート
+posts.sort((a, b) => b.frontmatter.date.localeCompare(a.frontmatter.date));
+
+const pageTitle = "Blog";
+---
+
+<BaseLayout pageTitle={pageTitle}>
+  <div class="max-w-3xl mx-auto px-8 py-16 w-full">
+    <h1 data-scramble class="text-3xl font-bold mb-6">{pageTitle}</h1>
+    <section>
+      <ul class="space-y-4">
+        {posts.map((post) => (
+          <li>
+            <a href={post.url} class="block text-[var(--color-text)] bg-[var(--color-bg)] border border-[var(--color-border)] rounded-xl p-6
+            transition-all
+            duration-200
+            ease-in-out
+            transform
+            hover:translate-x-[-4px] hover:translate-y-[-4px]
+            hover:shadow-[4px_4px_0_var(--color-accent)]
+            hover:border-[var(--color-accent)]">
+              <div class="flex flex-wrap items-center gap-2 mb-4">
+                {/* 日付 */}
+                <span class="text-sm text-[var(--color-subtext)]">
+                  {post.frontmatter.date.slice(0, 10)}
+                </span>
+                {/* カテゴリ */}
+                {post.frontmatter.categories && post.frontmatter.categories.length > 0 && sortTerms(post.frontmatter.categories).map(c => (
+                  <span
+                    class="bg-[var(--color-accent)] text-stone-50 px-2 py-0.5 rounded text-xs"
+                  >
+                    {c}
+                  </span>
+                ))}
+                {/* タグ */}
+                {post.frontmatter.tags && post.frontmatter.tags.length > 0 && sortTerms(post.frontmatter.tags).map(tag => (
+                  <span
+                    class="border border-[var(--color-accent)] text-[var(--color-accent)] px-2 py-0.5 rounded text-xs"
+                  >
+                    #{tag}
+                  </span>
+                ))}
+              </div>
+              {/* タイトル */}
+              <h2 class="font-semibold text-xl">
+                {post.frontmatter.title}
+              </h2>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  </div>
+</BaseLayout>
