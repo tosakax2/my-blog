@@ -21,10 +21,10 @@ export async function getStaticPaths() {
 
   return [
     ...Array.from(categorySet).map(category => ({
-      params: { type: 'categories', term: encodeURIComponent(category) },
+      params: { type: 'categories', term: category },
     })),
     ...Array.from(tagSet).map(tag => ({
-      params: { type: 'tags',       term: encodeURIComponent(tag) },
+      params: { type: 'tags',       term: tag },
     })),
   ];
 }
