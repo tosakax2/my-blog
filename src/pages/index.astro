@@ -6,7 +6,17 @@ const pageTitle = "Home"
 ---
 
 <BaseLayout pageTitle={pageTitle}>
-  <div class="flex flex-1 items-center justify-center">
+  <div class="flex flex-1 flex-col items-center justify-center">
+    <div  
+    class="w-32 h-32"
+    style="
+      mask: url(/images/site-icon.svg) no-repeat center / contain;
+      -webkit-mask: url(/images/site-icon.svg) no-repeat center / contain;
+      background-color: var(--color-text);
+    "
+    role="img"
+    aria-label="Site Icon"
+    />
     <h1 data-scramble class="text-4xl font-bold">{SITE_TITLE}</h1>
   </div>
 </BaseLayout>
