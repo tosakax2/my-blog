@@ -19,11 +19,12 @@ const { posts } = Astro.props as Props;
     <li>
       <a
         href={post.url}
-        class="block bg-[var(--color-bg)] border border-[var(--color-border)]
-               rounded-xl p-6 transition-all duration-200 ease-in-out
-               hover:translate-x-[-4px] hover:translate-y-[-4px]
-               hover:shadow-[4px_4px_0_var(--color-accent)]
-               hover:border-[var(--color-accent)]"
+        class="
+        block bg-[var(--color-bg)] border border-[var(--color-border)] text-[var(--color-text)]
+        rounded-xl p-6 transition-all duration-200 ease-in-out
+        hover:translate-x-[-4px] hover:translate-y-[-4px]
+        hover:shadow-[4px_4px_0_var(--color-accent)]
+        hover:border-[var(--color-accent)]"
       >
         <div class="flex flex-wrap items-center gap-2 mb-2">
           <time
