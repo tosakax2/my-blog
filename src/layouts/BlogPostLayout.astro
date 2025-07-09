@@ -17,7 +17,7 @@ const { frontmatter } = Astro.props;
 
 <BaseLayout pageTitle={frontmatter.title}>
   <div class="max-w-3xl mx-auto px-8 py-8 w-full">
-    <article class="my-12 bg-[var(--color-bg)] border border-[var(--color-border)] rounded-xl px-8 pt-8 pb-6">
+    <article class="my-12 bg-[var(--color-bg)] p-0 sm:border sm:border-[var(--color-border)] sm:rounded-xl sm:px-8 sm:pt-8 sm:pb-6">
       <h1 data-scramble class="text-3xl font-bold mb-2">{frontmatter.title}</h1>
       <time class="text-[var(--color-subtext)] text-sm" datetime={frontmatter.date}>
         {String(frontmatter.date).slice(0, 10)}
