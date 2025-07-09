@@ -43,7 +43,7 @@ const { frontmatter } = Astro.props;
               href={`/terms/tags/${encodeURIComponent(tag)}`}
               class="border border-[var(--color-accent)] text-[var(--color-accent)] px-2 py-0.5 rounded text-xs transition-opacity duration-200 hover:opacity-70"
             >
-              #{tag}
+              {tag}
             </a>
           ))}
         </div>

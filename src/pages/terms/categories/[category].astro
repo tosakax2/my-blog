@@ -62,7 +62,7 @@ const pageTitle = `Category: ${decodedCategory}`;
                     <span class="bg-[var(--color-accent)] text-stone-50 px-2 py-0.5 rounded text-xs">{c}</span>
                   ))}
                   {post.frontmatter.tags && sortTerms(post.frontmatter.tags).map(tag => (
-                    <span class="border border-[var(--color-accent)] text-[var(--color-accent)] px-2 py-0.5 rounded text-xs">#{tag}</span>
+                    <span class="border border-[var(--color-accent)] text-[var(--color-accent)] px-2 py-0.5 rounded text-xs">{tag}</span>
                   ))}
                 </div>
                 <h2 class="font-semibold text-xl">{post.frontmatter.title}</h2>
