@@ -24,7 +24,7 @@ const { frontmatter } = Astro.props;
       </time>
       {frontmatter.categories && frontmatter.categories.length > 0 && (
         <div class="flex items-center gap-2 mt-4">
-          <span class="text-sm text-[var(--color-subtext)] font-semibold">Categories:</span>
+          <span class="text-sm text-[var(--color-subtext)]">Categories:</span>
           {sortTerms(frontmatter.categories).map(category => (
             <a
               href={`/terms/categories/${encodeURIComponent(category)}`}
@@ -37,7 +37,7 @@ const { frontmatter } = Astro.props;
       )}
       {frontmatter.tags && frontmatter.tags.length > 0 && (
         <div class="flex items-center gap-2 my-2">
-          <span class="text-sm text-[var(--color-subtext)] font-semibold">Tags:</span>
+          <span class="text-sm text-[var(--color-subtext)]">Tags:</span>
           {sortTerms(frontmatter.tags).map(tag => (
             <a
               href={`/terms/tags/${encodeURIComponent(tag)}`}
