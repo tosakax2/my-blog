@@ -1,0 +1,52 @@
+---
+export interface Post {
+  url: string;
+  frontmatter: {
+    title: string;
+    date: string;
+    categories?: string[];
+    tags?: string[];
+  };
+}
+export interface Props {
+  posts: Post[];
+}
+import { sortTerms } from '../utils/sortTerms';
+const { posts } = Astro.props as Props;
+---
+<ul class="space-y-4">
+  {posts.map((post) => (
+    <li>
+      <a
+        href={post.url}
+        class="block bg-[var(--color-bg)] border border-[var(--color-border)]
+               rounded-xl p-6 transition-all duration-200 ease-in-out
+               hover:translate-x-[-4px] hover:translate-y-[-4px]
+               hover:shadow-[4px_4px_0_var(--color-accent)]
+               hover:border-[var(--color-accent)]"
+      >
+        <div class="flex flex-wrap items-center gap-2 mb-4">
+          <time
+            class="text-sm text-[var(--color-subtext)]"
+            datetime={post.frontmatter.date}
+          >
+            {post.frontmatter.date.slice(0, 10)}
+          </time>
+          {post.frontmatter.categories?.length &&
+            sortTerms(post.frontmatter.categories).map((c) => (
+              <span class="bg-[var(--color-accent)] text-stone-50 px-2 py-0.5 rounded text-xs">
+                {c}
+              </span>
+            ))}
+          {post.frontmatter.tags?.length &&
+            sortTerms(post.frontmatter.tags).map((t) => (
+              <span class="border border-[var(--color-accent)] text-[var(--color-accent)] px-2 py-0.5 rounded text-xs">
+                {t}
+              </span>
+            ))}
+        </div>
+        <h2 class="font-semibold text-xl">{post.frontmatter.title}</h2>
+      </a>
+    </li>
+  ))}
+</ul>
