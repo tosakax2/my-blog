@@ -1,7 +1,7 @@
 import { defineConfig } from "astro/config";
 import mdx from "@astrojs/mdx";
 import tailwindcss from "@tailwindcss/vite";
-import rlc from "remark-link-card";
+import remarkLinkCard from "remark-link-card";
 import rehypeRaw from "rehype-raw";
 import rehypeExternalLinks from "rehype-external-links";
 import remarkMath from "remark-math";
@@ -12,7 +12,7 @@ import { pluginLineNumbers } from "@expressive-code/plugin-line-numbers";
 export default defineConfig({
   site: "https://tosakax2.github.io",
   markdown: {
-    remarkPlugins: [remarkMath, [rlc, { shortenUrl: true }]],
+    remarkPlugins: [remarkMath, [remarkLinkCard, { shortenUrl: true }]],
     rehypePlugins: [rehypeKatex, rehypeRaw, [rehypeExternalLinks, { target: "_blank" }]],
   },
   integrations: [
