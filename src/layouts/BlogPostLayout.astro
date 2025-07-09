@@ -28,7 +28,7 @@ const { frontmatter } = Astro.props;
           {sortTerms(frontmatter.categories).map(category => (
             <a
               href={`/terms/categories/${encodeURIComponent(category)}`}
-              class="bg-[var(--color-accent)] text-stone-50 px-2 py-0.5 rounded text-xs transition-opacity duration-200 hover:opacity-70"
+              class="border border-[var(--color-accent)] text-[var(--color-accent)] px-2 py-0.5 rounded text-xs transition-opacity duration-200 hover:opacity-70"
             >
               {category}
             </a>
@@ -41,9 +41,9 @@ const { frontmatter } = Astro.props;
           {sortTerms(frontmatter.tags).map(tag => (
             <a
               href={`/terms/tags/${encodeURIComponent(tag)}`}
-              class="border border-[var(--color-accent)] text-[var(--color-accent)] px-2 py-0.5 rounded text-xs transition-opacity duration-200 hover:opacity-70"
+              class="border border-[var(--color-border)] text-[var(--color-subtext)] px-2 py-0.5 rounded text-xs transition-opacity duration-200 hover:opacity-70"
             >
-              {tag}
+              # {tag}
             </a>
           ))}
         </div>
