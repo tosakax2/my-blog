@@ -33,11 +33,11 @@ const { posts } = Astro.props as Props;
             {post.frontmatter.date.slice(0, 10)}
           </time>
         </div>
-        <h2 class="font-semibold text-xl">{post.frontmatter.title}</h2>
+        <h2 class="font-bold text-xl">{post.frontmatter.title}</h2>
         <div class="flex flex-wrap items-center gap-2 mt-2">
           {post.frontmatter.categories?.length &&
             sortTerms(post.frontmatter.categories).map((c) => (
-              <span class="border border-[var(--color-accent)] text-[var(--color-accent)] px-2 py-0.5 rounded text-xs">
+              <span class="font-semibold border border-[var(--color-accent)] text-[var(--color-accent)] px-2 py-0.5 rounded text-xs">
                 {c}
               </span>
             ))}

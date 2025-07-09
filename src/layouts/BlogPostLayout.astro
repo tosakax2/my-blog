@@ -28,7 +28,7 @@ const { frontmatter } = Astro.props;
           {sortTerms(frontmatter.categories).map(category => (
             <a
               href={`/terms/categories/${encodeURIComponent(category)}`}
-              class="border border-[var(--color-accent)] text-[var(--color-accent)] px-2 py-0.5 rounded text-xs transition-opacity duration-200 hover:opacity-70"
+              class="font-semibold border border-[var(--color-accent)] text-[var(--color-accent)] px-2 py-0.5 rounded text-xs transition-opacity duration-200 hover:opacity-70"
             >
               {category}
             </a>
