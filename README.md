@@ -1,6 +1,6 @@
-# Astro 製個人ブログ
+# my-blog
 
-このリポジトリは、Astro を使って作成した個人ブログのソースコードです。
+このリポジトリは、[Astro](https://astro.build/) を用いて作成した個人ブログのソースコードです。
 
 サイトは <https://t2-lab.pages.dev/> にて公開しています。
 
@@ -13,12 +13,12 @@
 
 ## ファイル構成
 
-- `src/pages` ：ページコンポーネント
+- `public` ：静的ファイル（画像やスクリプトなど）
 - `src/blog` ：ブログ記事（MDX 形式）
 - `src/components` ：共通コンポーネント
-- `public` ：静的ファイル（画像やスクリプトなど）
+- `src/pages` ：ページコンポーネント
 - `astro.config.mjs` ：Astro の設定ファイル
-- `tailwind.config.js` ：Tailwind CSS の設定
+- `tailwind.config.js` ：Tailwind CSS の設定ファイル
 
 ## 開発サーバ起動
 
@@ -31,11 +31,3 @@ npm run dev
 ```bush
 npm run build
 ```
-
-## 技術スタック
-
-- Astro
-- MDX
-- Tailwind CSS
-- remark-math / rehype-katex
-- astro-expressive-code
