@@ -44,7 +44,7 @@ const { posts } = Astro.props as Props;
             ))}
           {post.frontmatter.tags?.length &&
             sortTerms(post.frontmatter.tags).map((t) => (
-              <span class="border border-[var(--color-border)] text-[var(--color-subtext)] px-2 py-0.5 rounded text-xs">
+              <span class="font-semibold border border-[var(--color-subtext)] text-[var(--color-subtext)] px-2 py-0.5 rounded text-xs">
                 # {t}
               </span>
             ))}
