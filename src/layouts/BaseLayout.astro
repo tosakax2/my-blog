@@ -1,11 +1,17 @@
 ---
-import { LANGUAGE , SITE_TITLE} from "../config";
+import { SEO } from "astro-seo";
+import { LANGUAGE , SITE_TITLE, SEO_DEFAULTS} from "../config";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import "../styles/global.css";
 import "../styles/remark-link-card.css"
 
-const { pageTitle } = Astro.props;
+const { pageTitle, seo: pageSeo = {} } = Astro.props;
+const seoProps = {
+  ...SEO_DEFAULTS,
+  title: pageSeo.title || pageTitle,
+  ...pageSeo,
+};
 ---
 
 <!DOCTYPE html>
@@ -23,6 +29,7 @@ const { pageTitle } = Astro.props;
         }
       } catch (err) {}
     </script>
+    <SEO {...seoProps} />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="generator" content={Astro.generator} />
