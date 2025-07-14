@@ -10,7 +10,7 @@ import expressiveCode from "astro-expressive-code";
 import { pluginLineNumbers } from "@expressive-code/plugin-line-numbers";
 
 export default defineConfig({
-  site: "https://tosakax2.github.io",
+  site: "https://t2-lab.pages.dev",
   markdown: {
     remarkPlugins: [remarkMath, [remarkLinkCard, { shortenUrl: true }]],
     rehypePlugins: [rehypeKatex, rehypeRaw, [rehypeExternalLinks, { target: "_blank" }]],

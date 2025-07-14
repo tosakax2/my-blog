@@ -6,12 +6,13 @@ export const AUTHOR = "tosakax2";
 
 export const SEO_DEFAULTS = {
   title: SITE_TITLE,
+  titleTemplate: "%s - " + SITE_TITLE,
   description: SITE_DESCRIPTION,
   openGraph: {
     basic: {
       title: SITE_TITLE,
       type: "website",
-      image: `${SITE_URL}/images/default-image`,
+      image: `${SITE_URL}/images/default-image.png`,
       url: SITE_URL,
     },
   },

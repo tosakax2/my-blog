@@ -1,15 +1,23 @@
 ---
 import { SEO } from "astro-seo";
-import { LANGUAGE , SITE_TITLE, SEO_DEFAULTS} from "../config";
+import { LANGUAGE , SITE_TITLE, SITE_URL, SEO_DEFAULTS} from "../config";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import "../styles/global.css";
 import "../styles/remark-link-card.css"
 
 const { pageTitle, seo: pageSeo = {} } = Astro.props;
+
 const seoProps = {
   ...SEO_DEFAULTS,
   title: pageSeo.title || pageTitle,
+  openGraph: {
+    basic: {
+      ...SEO_DEFAULTS.openGraph.basic,
+      title: `${pageSeo.title || pageTitle} - ${SITE_TITLE}`,
+      url: `${SITE_URL}${Astro.url.pathname}`,
+    },
+  },
   ...pageSeo,
 };
 ---
@@ -17,6 +25,7 @@ const seoProps = {
 <!DOCTYPE html>
 <html lang={LANGUAGE}>
   <head>
+    <SEO {...seoProps} />
     <script is:inline>
       try {
         const saved = localStorage.getItem('theme');
@@ -29,7 +38,6 @@ const seoProps = {
         }
       } catch (err) {}
     </script>
-    <SEO {...seoProps} />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="generator" content={Astro.generator} />
@@ -37,7 +45,6 @@ const seoProps = {
     <link rel="shortcut icon" href="/images/favicon.ico" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css" />
-    <title>{pageTitle} - {SITE_TITLE}</title>
   </head>
   <body class="min-h-screen flex flex-col font-sans bg-[var(--color-bg)] text-[var(--color-text)]">
     <Header />
