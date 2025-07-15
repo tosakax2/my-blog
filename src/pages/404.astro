@@ -1,0 +1,26 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const pageTitle = "404 Not Found";
+---
+
+<BaseLayout pageTitle={pageTitle}>
+  <head>
+    <meta name="robots" content="noindex" />
+  </head>
+  <div class="flex flex-1 flex-col items-center justify-center p-8">
+    <div  
+      class="w-32 h-32"
+      style="
+        mask: url(/images/site-icon.svg) no-repeat center / contain;
+        -webkit-mask: url(/images/site-icon.svg) no-repeat center / contain;
+        background-color: var(--color-text);
+      "
+      role="img"
+      aria-label="Site Icon"
+    />
+    <h1 class="text-4xl font-bold mt-6">404 - ページが見つかりません</h1>
+    <p class="mt-4 text-lg text-[var(--color-subtext)]">お探しのページは存在しないか、移動した可能性があります。</p>
+    <a href="/" class="mt-8 underline hover:no-underline">トップページへ戻る</a>
+  </div>
+</BaseLayout>
