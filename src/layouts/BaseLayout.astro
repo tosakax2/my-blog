@@ -1,12 +1,13 @@
 ---
 import { SEO } from "astro-seo";
-import { LANGUAGE , SITE_TITLE, SEO_DEFAULTS } from "../config";
+import { LANGUAGE , SITE_TITLE, SITE_URL, SEO_DEFAULTS } from "../config";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import "../styles/global.css";
 import "../styles/remark-link-card.css"
 
 const { pageTitle, seo: pageSeo = {} } = Astro.props;
+const canonicalURL = new URL(Astro.url.pathname, SITE_URL).toString();
 
 const seoProps = {
   ...SEO_DEFAULTS,
@@ -19,6 +20,7 @@ const seoProps = {
       ...SEO_DEFAULTS.openGraph.basic,
       ...(pageSeo.openGraph?.basic ?? {}),
       title: `${pageSeo.title || pageTitle} - ${SITE_TITLE}`,
+      url: canonicalURL,
     },
     image: {
       ...SEO_DEFAULTS.openGraph.image,
@@ -29,7 +31,9 @@ const seoProps = {
     ...SEO_DEFAULTS.twitter,
     ...(pageSeo.twitter ?? {}),
     title: `${pageSeo.title || pageTitle} - ${SITE_TITLE}`,
+    url: canonicalURL,
   },
+  canonicalURL,
 };
 ---
 
