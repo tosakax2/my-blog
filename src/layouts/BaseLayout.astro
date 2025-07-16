@@ -1,46 +1,53 @@
 ---
-import { SEO } from "astro-seo";
 import { LANGUAGE , SITE_TITLE, SITE_URL, SEO_DEFAULTS } from "../config";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import "../styles/global.css";
-import "../styles/remark-link-card.css"
+import "../styles/remark-link-card.css";
 
 const { pageTitle, seo: pageSeo = {} } = Astro.props;
 const canonicalURL = new URL(Astro.url.pathname, SITE_URL).toString();
 
-const seoProps = {
-  ...SEO_DEFAULTS,
-  ...pageSeo,
-  title: pageSeo.title || pageTitle,
-  openGraph: {
-    ...SEO_DEFAULTS.openGraph,
-    ...(pageSeo.openGraph ?? {}),
-    basic: {
-      ...SEO_DEFAULTS.openGraph.basic,
-      ...(pageSeo.openGraph?.basic ?? {}),
-      title: pageSeo.title || pageTitle,
-      url: canonicalURL,
-    },
-    image: {
-      ...SEO_DEFAULTS.openGraph.image,
-      ...(pageSeo.openGraph?.image ?? {}),
-    },
-  },
-  twitter: {
-    ...SEO_DEFAULTS.twitter,
-    ...(pageSeo.twitter ?? {}),
-    title: pageSeo.title || pageTitle,
-    url: canonicalURL,
-  },
-  canonicalURL,
-};
+const title = pageSeo.title || pageTitle || SITE_TITLE;
+const fullTitle = title === SITE_TITLE ? title : `${title} - ${SITE_TITLE}`;
+const description = pageSeo.description || SEO_DEFAULTS.description;
+
+const ogType = pageSeo.openGraph?.basic?.type || SEO_DEFAULTS.openGraph.basic.type;
+const ogImage = pageSeo.openGraph?.basic?.image || SEO_DEFAULTS.openGraph.basic.image;
+const ogImageAlt = pageSeo.openGraph?.image?.alt || SEO_DEFAULTS.openGraph.image.alt;
+const ogDescription = pageSeo.openGraph?.optional?.description || description;
+
+const twitterCard = pageSeo.twitter?.card || SEO_DEFAULTS.twitter.card;
+const twitterSite = pageSeo.twitter?.site || SEO_DEFAULTS.twitter.site;
+const twitterCreator = pageSeo.twitter?.creator || SEO_DEFAULTS.twitter.creator;
+const twitterTitle = pageSeo.twitter?.title || title;
+const twitterDescription = pageSeo.twitter?.description || description;
+const twitterImage = pageSeo.twitter?.image || ogImage;
+const twitterImageAlt = pageSeo.twitter?.imageAlt || ogImageAlt;
+
+const noindex = pageSeo.noindex === true;
 ---
 
 <!DOCTYPE html>
 <html lang={LANGUAGE}>
   <head>
-    <SEO {...seoProps} />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+    {noindex && <meta name="robots" content="noindex" />}
+    <meta property="og:type" content={ogType} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={ogDescription} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:alt" content={ogImageAlt} />
+    <meta name="twitter:card" content={twitterCard} />
+    <meta name="twitter:site" content={twitterSite} />
+    <meta name="twitter:creator" content={twitterCreator} />
+    <meta name="twitter:title" content={twitterTitle} />
+    <meta name="twitter:description" content={twitterDescription} />
+    <meta name="twitter:image" content={twitterImage} />
+    <meta name="twitter:image:alt" content={twitterImageAlt} />
     <script is:inline>
       try {
         const saved = localStorage.getItem('theme');
