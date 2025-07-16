@@ -1,6 +1,6 @@
 ---
 import { SEO } from "astro-seo";
-import { LANGUAGE , SITE_TITLE, SITE_URL, SEO_DEFAULTS} from "../config";
+import { LANGUAGE , SITE_TITLE, SEO_DEFAULTS } from "../config";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import "../styles/global.css";
@@ -10,20 +10,26 @@ const { pageTitle, seo: pageSeo = {} } = Astro.props;
 
 const seoProps = {
   ...SEO_DEFAULTS,
+  ...pageSeo,
   title: pageSeo.title || pageTitle,
   openGraph: {
     ...SEO_DEFAULTS.openGraph,
+    ...(pageSeo.openGraph ?? {}),
     basic: {
       ...SEO_DEFAULTS.openGraph.basic,
+      ...(pageSeo.openGraph?.basic ?? {}),
       title: `${pageSeo.title || pageTitle} - ${SITE_TITLE}`,
-      url: `${SITE_URL}${Astro.url.pathname}`,
+    },
+    image: {
+      ...SEO_DEFAULTS.openGraph.image,
+      ...(pageSeo.openGraph?.image ?? {}),
     },
   },
   twitter: {
     ...SEO_DEFAULTS.twitter,
+    ...(pageSeo.twitter ?? {}),
     title: `${pageSeo.title || pageTitle} - ${SITE_TITLE}`,
   },
-  ...pageSeo,
 };
 ---
 

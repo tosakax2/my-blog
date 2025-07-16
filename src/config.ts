@@ -5,7 +5,7 @@ export const LANGUAGE = "ja";
 export const AUTHOR = "tosakax2";
 
 export const SEO_DEFAULTS = {
-  title: SITE_TITLE,
+  titleDefault: SITE_TITLE,
   titleTemplate: "%s - " + SITE_TITLE,
   description: SITE_DESCRIPTION,
   openGraph: {
@@ -18,6 +18,9 @@ export const SEO_DEFAULTS = {
     optional: {
       description: SITE_DESCRIPTION,
     },
+    image: {
+      alt: "T2-Lab default image",
+    },
   },
   twitter: {
     site: "@tosakax2",
@@ -26,5 +29,6 @@ export const SEO_DEFAULTS = {
     title: SITE_TITLE,
     description: SITE_DESCRIPTION,
     image: `${SITE_URL}/images/default-image.png`,
+    imageAlt: "T2-Lab default image",
   },
 };
