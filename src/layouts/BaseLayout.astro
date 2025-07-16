@@ -19,6 +19,10 @@ const seoProps = {
       url: `${SITE_URL}${Astro.url.pathname}`,
     },
   },
+  twitter: {
+    ...SEO_DEFAULTS.twitter,
+    title: `${pageSeo.title || pageTitle} - ${SITE_TITLE}`,
+  },
   ...pageSeo,
 };
 ---
