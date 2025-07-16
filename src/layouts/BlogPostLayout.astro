@@ -43,7 +43,7 @@ const { frontmatter } = Astro.props;
             {sortTerms(frontmatter.tags).map(tag => (
               <a
                 href={`/terms/tags/${encodeURIComponent(tag)}`}
-                class="font-semibold border border-[var(--color-border)] text-[var(--color-subtext)] px-2 py-0.5 rounded text-xs transition-opacity duration-200 hover:opacity-70"
+                class="font-semibold border border-[var(--color-subtext)] text-[var(--color-subtext)] px-2 py-0.5 rounded text-xs transition-opacity duration-200 hover:opacity-70"
               >
                 # {tag}
               </a>

@@ -26,7 +26,7 @@ const { posts } = Astro.props as Props;
         hover:shadow-[4px_4px_0_var(--color-accent)]
         hover:border-[var(--color-accent)]"
       >
-        <div class="flex flex-wrap items-center gap-2">
+        <div class="flex flex-wrap items-center gap-2 mb-2">
           <time
             class="font-semibold text-sm text-[var(--color-subtext)]"
             datetime={post.frontmatter.date}
@@ -34,8 +34,8 @@ const { posts } = Astro.props as Props;
             {post.frontmatter.date.slice(0, 10)}
           </time>
         </div>
-        <h2 class="font-bold text-xl">{post.frontmatter.title}</h2>
-        <div class="flex flex-wrap items-center gap-2 mt-2">
+        <h2 class="font-semibold text-xl">{post.frontmatter.title}</h2>
+        <div class="flex flex-wrap items-center gap-2 mt-3">
           {post.frontmatter.categories?.length &&
             sortTerms(post.frontmatter.categories).map((c) => (
               <span class="font-semibold border border-[var(--color-accent)] text-[var(--color-accent)] px-2 py-0.5 rounded text-xs">

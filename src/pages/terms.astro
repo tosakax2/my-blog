@@ -4,13 +4,23 @@ import { sortTerms } from "../utils/sortTerms";
 
 // 全記事の frontmatter からカテゴリ・タグを収集
 const postFiles = import.meta.glob('../blog/*.{md,mdx}', { eager: true });
+
+// カテゴリとタグのSet & 件数Map
 const categorySet = new Set<string>();
 const tagSet      = new Set<string>();
+const categoryCountMap = new Map<string, number>();
+const tagCountMap      = new Map<string, number>();
 
 for (const path in postFiles) {
   const { frontmatter } = postFiles[path] as any;
-  frontmatter.categories?.forEach((c: string) => categorySet.add(c));
-  frontmatter.tags?.forEach((t: string)      => tagSet.add(t));
+  frontmatter.categories?.forEach((c: string) => {
+    categorySet.add(c);
+    categoryCountMap.set(c, (categoryCountMap.get(c) ?? 0) + 1);
+  });
+  frontmatter.tags?.forEach((t: string) => {
+    tagSet.add(t);
+    tagCountMap.set(t, (tagCountMap.get(t) ?? 0) + 1);
+  });
 }
 
 const categories = sortTerms(Array.from(categorySet));
@@ -23,30 +33,46 @@ const pageTitle  = "Terms";
     <h1 data-scramble class="text-center text-4xl font-bold mb-16">{pageTitle}</h1>
     <section class="space-y-8">
       <div class="bg-[var(--color-bg)] border border-[var(--color-border)] rounded-md p-6">
-        <h2 class="text-2xl font-bold mb-4">Categories</h2>
-        <ul class="list-disc list-inside space-y-2 ml-4">
+        <h2 class="text-2xl font-bold mb-6">Categories</h2>
+        <ul class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4">
           {categories.map(category => (
-            <li>
-              <a
+            <a
               href={`/terms/categories/${encodeURIComponent(category)}`}
-              class="font-semibold text-[var(--color-accent)] transition-opacity duration-200 hover:opacity-70"
-              >{category}
-              </a>
-            </li>
+              class="block bg-[var(--color-bg)] border border-[var(--color-border)]
+                      rounded-md px-4 py-2 transition-all duration-200 ease-in-out
+                      hover:translate-x-[-3px] hover:translate-y-[-3px]
+                      hover:shadow-[3px_3px_0_var(--color-accent)]
+                      hover:border-[var(--color-accent)]"
+              >
+              <li class="flex items-center justify-between font-semibold text-[var(--color-text)]">
+                {category}
+                <span class="font-bold text-sm text-[var(--color-accent)]">
+                  {categoryCountMap.get(category) ?? 0}
+                </span>
+              </li>
+            </a>
           ))}
         </ul>
       </div>
       <div class="bg-[var(--color-bg)] border border-[var(--color-border)] rounded-md p-6">
-        <h2 class="text-2xl font-bold mb-4">Tags</h2>
-        <ul class="list-disc list-inside space-y-2 ml-4">
+        <h2 class="text-2xl font-bold mb-6">Tags</h2>
+        <ul class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4">
           {tags.map(tag => (
-            <li>
-              <a
+            <a
               href={`/terms/tags/${encodeURIComponent(tag)}`}
-              class="font-semibold text-[var(--color-accent)] transition-opacity duration-200 hover:opacity-70"
-              >{tag}
-              </a>
-            </li>
+              class="block bg-[var(--color-bg)] border border-[var(--color-border)]
+                      rounded-md px-4 py-2 transition-all duration-200 ease-in-out
+                      hover:translate-x-[-3px] hover:translate-y-[-3px]
+                      hover:shadow-[3px_3px_0_var(--color-accent)]
+                      hover:border-[var(--color-accent)]"
+              >
+              <li class="flex items-center justify-between font-semibold text-[var(--color-text)]">
+                {tag}
+                <span class="font-bold text-sm text-[var(--color-accent)]">
+                  {tagCountMap.get(tag) ?? 0}
+                </span>
+              </li>
+            </a>
           ))}
         </ul>
       </div>
