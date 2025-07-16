@@ -1,83 +1,82 @@
-.rlc-container {
-  --padding-x: 1rem;
-  --padding-y: 0.7rem;
-  --border-radius: calc(0.5rem - 1px);
+/* カード全体を囲むコンテナ */
+.remark-link-card-plus__container {
+  margin: 1.25em 0;
+}
+/* カード本体 */
+.remark-link-card-plus__card {
+  display: block;
+  background-color: var(--color-bg);
   border: 1px solid var(--color-border);
-  border-radius: calc(var(--border-radius) + 1px);
+  border-radius: 0.375rem; /* rounded-md */
+  color: var(--color-text);
+  padding: 1.25rem;
   text-decoration: none !important;
+  transition: all 0.2s ease-in-out; /* transition-all duration-200 ease-in-out */
+}
+.remark-link-card-plus__card:hover {
+  border-color: var(--color-accent);
+  box-shadow: 4px 4px 0 var(--color-accent);
+  opacity: 1 !important;
+  transform: translate(-4px, -4px);
+}
 
-  width: 100%;
-  margin: 1em 0;
-
-  display: grid;
-  grid-template-columns: 1fr 116px;
-  gap: 1rem;
-  @media (min-width: 60ch) {
-    grid-template-columns: 1fr 220px;
-  }
-  .rlc-info {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    font-weight: normal;
-
-    grid-column: 1;
-    padding: var(--padding-y) 0 var(--padding-y) var(--padding-x);
-    max-width: 100%;
-    min-width: 100%;
-    border-radius: var(--border-radius) 0 0 var(--border-radius);
-    .rlc-title {
-      color: var(--color-text);
-      font-size: 1rem;
-      font-weight: bold;
-      line-height: 1.3;
-
-      overflow: hidden;
-      display: -webkit-box;
-      text-overflow: ellipsis;
-      -webkit-box-orient: vertical;
-      -webkit-line-clamp: 2;
-    }
-    .rlc-description {
-      font-size: 0.8rem;
-      color: var(--color-subtext);
-      margin-bottom: 0.5em;
-
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      -webkit-line-clamp: 1;
-    }
-    .rlc-url-container {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      .rlc-favicon {
-        margin-top: 0.15rem;
-        margin-bottom: 0;
-      }
-      .rlc-url {
-        font-size: 0.8rem;
-        color: var(--color-subtext);
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        -webkit-line-clamp: 1;
-      }
-    }
-  }
-  .rlc-image-container {
-    grid-column: 2;
-    aspect-ratio: 1 / 1;
-    @media (min-width: 60ch) {
-      aspect-ratio: 1.91 / 1;
-    }
-    .rlc-image {
-      object-fit: cover;
-      height: 100%;
-      width: 100%;
-      margin: 0;
-      border-radius: 0 var(--border-radius) var(--border-radius) 0;
-    }
-  }
+/* テキスト要素全体をまとめる */
+.remark-link-card-plus__main {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  max-width: 100%;
+}
+/* タイトルと説明をまとめる */
+.remark-link-card-plus__content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+/* ページのタイトル */
+.remark-link-card-plus__title {
+  color: var(--color-text);
+  font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: 0.25em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+/* 説明文 */
+.remark-link-card-plus__description {
+  color: var(--color-subtext);
+  font-size: 0.8rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+/* faviconとURLをまとめる */
+.remark-link-card-plus__meta {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  gap: 0.5em;
+  height: 1rem;
+}
+/* favicon画像 */
+.remark-link-card-plus__favicon {
+  height: 1rem;
+  width: 1rem;
+}
+/* リンク先URL */
+.remark-link-card-plus__url {
+  color: var(--color-subtext);
+  font-size: 0.8rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+/* サムネイル画像枠 */
+.remark-link-card-plus__thumbnail {
+  display: none;
+}
+/* サムネイル画像 */
+.remark-link-card-plus__image {
+  display: none;
 }

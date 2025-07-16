@@ -12,6 +12,7 @@ const seoProps = {
   ...SEO_DEFAULTS,
   title: pageSeo.title || pageTitle,
   openGraph: {
+    ...SEO_DEFAULTS.openGraph,
     basic: {
       ...SEO_DEFAULTS.openGraph.basic,
       title: `${pageSeo.title || pageTitle} - ${SITE_TITLE}`,

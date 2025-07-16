@@ -16,42 +16,44 @@ const { frontmatter } = Astro.props;
 ---
 
 <BaseLayout pageTitle={frontmatter.title}>
-  <div class="max-w-3xl mx-auto px-4 sm:px-8 w-full">
-    <article class="my-12 bg-[var(--color-bg)] p-0 sm:border sm:border-[var(--color-border)] sm:rounded-xl sm:px-8 sm:pt-8 sm:pb-6">
-      <h1 data-scramble class="text-3xl font-bold mb-2">{frontmatter.title}</h1>
-      <time class="text-[var(--color-subtext)] text-sm" datetime={frontmatter.date}>
-        {String(frontmatter.date).slice(0, 10)}
-      </time>
-      {frontmatter.categories && frontmatter.categories.length > 0 && (
-        <div class="flex flex-wrap items-center gap-2 mt-4">
-          <span class="text-sm text-[var(--color-subtext)]">Categories:</span>
-          {sortTerms(frontmatter.categories).map(category => (
-            <a
-              href={`/terms/categories/${encodeURIComponent(category)}`}
-              class="font-semibold border border-[var(--color-accent)] text-[var(--color-accent)] px-2 py-0.5 rounded text-xs transition-opacity duration-200 hover:opacity-70"
-            >
-              {category}
-            </a>
-          ))}
-        </div>
-      )}
-      {frontmatter.tags && frontmatter.tags.length > 0 && (
-        <div class="flex flex-wrap items-center gap-2 my-2">
-          <span class="text-sm text-[var(--color-subtext)]">Tags:</span>
-          {sortTerms(frontmatter.tags).map(tag => (
-            <a
-              href={`/terms/tags/${encodeURIComponent(tag)}`}
-              class="font-semibold border border-[var(--color-border)] text-[var(--color-subtext)] px-2 py-0.5 rounded text-xs transition-opacity duration-200 hover:opacity-70"
-            >
-              # {tag}
-            </a>
-          ))}
-        </div>
-      )}
-      <section class={styles.content}>
-        <hr />
-        <slot />
-      </section>
+  <div class="max-w-3xl mx-auto px-4 sm:px-8 py-16 w-full">
+    <article>
+      <h1 data-scramble class="text-center text-4xl font-bold mb-16">{frontmatter.title}</h1>
+      <div class="border border-[var(--color-border)] rounded-md p-6">
+        <span class="text-sm text-[var(--color-subtext)]">Date :</span>
+        <time class="font-semibold text-[var(--color-subtext)] text-sm" datetime={frontmatter.date}>
+          {String(frontmatter.date).slice(0, 10)}
+        </time>
+        {frontmatter.categories && frontmatter.categories.length > 0 && (
+          <div class="flex flex-wrap items-center gap-2 mt-2">
+            <span class="text-sm text-[var(--color-subtext)]">Categories :</span>
+            {sortTerms(frontmatter.categories).map(category => (
+              <a
+                href={`/terms/categories/${encodeURIComponent(category)}`}
+                class="font-semibold border border-[var(--color-accent)] text-[var(--color-accent)] px-2 py-0.5 rounded text-xs transition-opacity duration-200 hover:opacity-70"
+              >
+                {category}
+              </a>
+            ))}
+          </div>
+        )}
+        {frontmatter.tags && frontmatter.tags.length > 0 && (
+          <div class="flex flex-wrap items-center gap-2 my-2">
+            <span class="text-sm text-[var(--color-subtext)]">Tags :</span>
+            {sortTerms(frontmatter.tags).map(tag => (
+              <a
+                href={`/terms/tags/${encodeURIComponent(tag)}`}
+                class="font-semibold border border-[var(--color-border)] text-[var(--color-subtext)] px-2 py-0.5 rounded text-xs transition-opacity duration-200 hover:opacity-70"
+              >
+                # {tag}
+              </a>
+            ))}
+          </div>
+        )}
+        <section class={styles.content}>
+          <slot />
+        </section>
+      </div>
     </article>
   </div>
 </BaseLayout>

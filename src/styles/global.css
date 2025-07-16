@@ -4,7 +4,7 @@
   --color-bg: #fafafa;
   --color-text: #212121;
   --color-subtext: #404040;
-  --color-border: #aaaaaa;
+  --color-border: #cccccc;
   --color-accent: #e53935;
   --color-hover: #e6e6e6;
 }
@@ -13,7 +13,7 @@
   --color-bg: #212121;
   --color-text: #e7e7e7;
   --color-subtext: #aaaaaa;
-  --color-border: #666666;
+  --color-border: #444444;
   --color-accent: #ff7043;
   --color-hover: #171717;
 }
@@ -29,7 +29,10 @@ body {
 
 .theme-transition,
 .theme-transition * {
-  transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+  transition:
+    background-color 0.2s,
+    color 0.2s,
+    border-color 0.2s;
 }
 
 .footnotes {

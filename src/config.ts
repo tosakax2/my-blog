@@ -11,10 +11,12 @@ export const SEO_DEFAULTS = {
   openGraph: {
     basic: {
       title: SITE_TITLE,
-      description: SITE_DESCRIPTION,
       type: "website",
       image: `${SITE_URL}/images/default-image.png`,
       url: SITE_URL,
+    },
+    optional: {
+      description: SITE_DESCRIPTION,
     },
   },
   twitter: {
