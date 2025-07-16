@@ -23,7 +23,7 @@ export const SEO_DEFAULTS = {
   },
   twitter: {
     site: "@tosakax2",
-    card: "summary_large_image",
+    card: "summary",
     creator: "@tosakax2",
     title: SITE_TITLE,
     description: SITE_DESCRIPTION,
