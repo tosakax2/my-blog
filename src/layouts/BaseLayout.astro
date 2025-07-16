@@ -19,7 +19,7 @@ const seoProps = {
     basic: {
       ...SEO_DEFAULTS.openGraph.basic,
       ...(pageSeo.openGraph?.basic ?? {}),
-      title: `${pageSeo.title || pageTitle} - ${SITE_TITLE}`,
+      title: pageSeo.title || pageTitle,
       url: canonicalURL,
     },
     image: {
@@ -30,7 +30,7 @@ const seoProps = {
   twitter: {
     ...SEO_DEFAULTS.twitter,
     ...(pageSeo.twitter ?? {}),
-    title: `${pageSeo.title || pageTitle} - ${SITE_TITLE}`,
+    title: pageSeo.title || pageTitle,
     url: canonicalURL,
   },
   canonicalURL,
