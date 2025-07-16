@@ -11,7 +11,7 @@ import { pluginLineNumbers } from "@expressive-code/plugin-line-numbers";
 export default defineConfig({
   site: "https://t2-lab.pages.dev",
   markdown: {
-    remarkPlugins: [remarkMath, [remarkLinkCard, { shortenUrl: false }]],
+    remarkPlugins: [remarkMath, [remarkLinkCard, { shortenUrl: true }]],
     rehypePlugins: [rehypeKatex, rehypeRaw],
   },
   integrations: [
