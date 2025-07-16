@@ -13,7 +13,6 @@ export const SEO_DEFAULTS = {
       title: SITE_TITLE,
       type: "website",
       image: `${SITE_URL}/images/default-image.png`,
-      url: SITE_URL,
     },
     optional: {
       description: SITE_DESCRIPTION,
