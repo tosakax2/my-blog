@@ -36,7 +36,7 @@ const posts = Object.entries(postFiles).map(([path, mod]) => {
 // 任意: 日付で降順ソート
 posts.sort((a, b) => b.frontmatter.date.localeCompare(a.frontmatter.date));
 
-const PER_PAGE = 10;
+const PER_PAGE = 5;
 const pageTitle = "Blog";
 const totalPages = Math.ceil(posts.length / PER_PAGE);
 const currentPage = 1;
