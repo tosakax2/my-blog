@@ -5,10 +5,10 @@ import PostList from "../../../components/PostList.astro";
 import Pagination from "../../../components/Pagination.astro";
 import { hashTitle } from "../../../utils/hashTitle";
 
-const PER_PAGE = 5;
+const PER_PAGE = 8;
 
 export async function getStaticPaths() {
-  const PER_PAGE = 5;
+  const PER_PAGE = 8;
   const postFiles = import.meta.glob('../../../blog/*.{md,mdx}', { eager: true });
   const total = Object.keys(postFiles).length;
   const totalPages = Math.ceil(total / PER_PAGE);
@@ -40,7 +40,7 @@ posts.sort((a, b) => b.frontmatter.date.localeCompare(a.frontmatter.date));
 const totalPages = Math.ceil(posts.length / PER_PAGE);
 const paginated = posts.slice((currentPage - 1) * PER_PAGE, currentPage * PER_PAGE);
 
-const pageTitle = `Blog - Page ${currentPage}`;
+const pageTitle = "Blog";
 ---
 <BaseLayout pageTitle={pageTitle}>
   <div class="max-w-3xl mx-auto px-4 sm:px-8 py-16 w-full">
