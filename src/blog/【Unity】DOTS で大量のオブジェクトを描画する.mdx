@@ -1,0 +1,231 @@
+---
+title: 【Unity】DOTS で大量のオブジェクトを描画する
+date: 2024-10-13
+categories:
+  - Tech
+tags:
+  - Unity
+  - ゲーム開発
+---
+
+本記事では、Unity DOTS（Data-Oriented Technology Stack）を活用して、大量のオブジェクトを効率的に描画する手法について詳しく解説します。Unity の従来のオブジェクト指向プログラミング（OOP）とは一線を画し、データ指向設計を実現する DOTS は、特に大量のエンティティを扱う際に圧倒的なパフォーマンス向上を発揮します。ここでは、DOTS の基本概念から実践的な実装例、パフォーマンス最適化のポイントまでを網羅し、Unity 開発者の皆さんが現場で直面する「大量オブジェクト描画」の課題に対する具体的な解決策を提供します。
+
+## 1. はじめに
+
+近年、ゲームやシミュレーション、VR/AR といった分野で、リアルタイムに大量のオブジェクトを描画するニーズが高まっています。従来の Unity 開発では、GameObject ベースの実装が主流でしたが、数千、あるいは数万単位のオブジェクトを管理する際にはパフォーマンス面での課題が浮上してしまいます。そこで登場するのが Unity DOTS です。
+
+本記事の目的は、Unity DOTS を活用して大量のオブジェクトを描画するための基本知識、実装手法、そしてパフォーマンス最適化のテクニックを解説することにあります。
+
+## 2. Unity DOTS の概要
+
+### 2.1 DOTS とは？
+
+Unity DOTS（Data-Oriented Technology Stack）は、データ指向設計を採用した新しい開発手法で、以下の 3 つの主要コンポーネントで構成されています。
+
+- **ECS（Entity Component System）**
+  データをエンティティ（Entity）、コンポーネント（Component）、システム（System）の 3 層に分割することで、処理の効率化と並列処理を実現します。
+- **Job System**
+  マルチスレッド処理を容易にし、CPU の複数コアを最大限に活用する仕組みです。大量の計算処理を効率良く分散して実行できます。
+- **Burst Compiler**
+  高度な最適化を施すことで、C#のコードをネイティブコードに変換し、驚異的なパフォーマンス向上を実現します。
+
+### 2.2 DOTS のメリット
+
+- **パフォーマンスの向上**
+  大量のオブジェクト管理や計算処理において、並列処理と低レベル最適化により、従来の OOP に比べて圧倒的に高速です。
+- **スケーラビリティ**
+  数千、数万単位のエンティティを効率的に管理できるため、シミュレーションや大規模なゲーム開発に適しています。
+- **メモリ効率の改善**
+  データレイアウトの最適化により、キャッシュのヒット率が向上し、結果としてメモリパフォーマンスが向上します。
+
+## 3. 大量オブジェクト描画の課題
+
+大量のオブジェクトを描画する際には、以下のような課題が発生します。
+
+- **ドローコールの増加**
+  一つ一つのオブジェクトを描画するためのドローコールが増えると、GPU と CPU の負荷が高くなり、パフォーマンスが低下します。
+- **CPU 負荷の集中**
+  従来の GameObject ベースの管理方法では、各オブジェクトの更新処理が個別に行われるため、CPU 負荷が急増し、フレームレートが低下する可能性があります。
+- **メモリ断片化**
+  多数のオブジェクトを動的に生成・破棄する場合、メモリ管理が複雑になり、断片化が発生するリスクがあります。
+
+DOTS ではこれらの課題に対して、データ指向設計と並列処理、そして最適化コンパイラによって、効率的な処理が可能となります。
+
+## 4. DOTS を活用した大量オブジェクト描画の実践手法
+
+DOTS を用いることで、大量のオブジェクト描画におけるパフォーマンス課題をどのように解決できるか、具体的な手法をいくつか紹介します。
+
+### 4.1 ECS を使ったデータ駆動設計
+
+ECS は、オブジェクト（エンティティ）に必要なデータをコンポーネントとして分割し、システムがそれらのデータをまとめて処理する仕組みです。これにより、同種の処理を一括して並列処理できるため、パフォーマンスが大幅に向上します。
+
+### 4.2 Job System での並列処理
+
+Job System を利用することで、複数のジョブを同時に実行し、CPU の複数コアをフル活用できます。例えば、オブジェクトの位置更新や衝突判定、物理計算など、各処理をジョブに分割することで、フレーム毎の負荷を分散させることが可能です。
+
+### 4.3 Burst Compiler による最適化
+
+Burst Compiler は、C#コードを高度に最適化されたネイティブコードに変換します。これにより、ジョブ内の計算処理が非常に高速に実行され、CPU 負荷の軽減とともに、全体の処理速度が向上します。
+
+### 4.4 Hybrid Renderer V2 の活用
+
+DOTS と連携して動作する Hybrid Renderer V2 は、ECS 上のエンティティを GPU 上で効率的に描画するためのソリューションです。従来の MeshRenderer に比べて、ドローコールを大幅に削減し、数万単位のオブジェクトでも滑らかに描画することが可能です。
+
+## 5. サンプルコードと実装例
+
+ここでは、簡単なサンプルコードを通じて、DOTS を利用した大量オブジェクト描画の基本的な実装方法を紹介します。
+
+### 5.1 エンティティの生成と配置
+
+以下のコード例は、シーン内に指定数のキューブオブジェクトを生成し、並べる処理を ECS で実装したものです。
+
+```csharp
+using UnityEngine;
+using Unity.Entities;
+using Unity.Transforms;
+using Unity.Mathematics;
+
+public class CubeSpawner : MonoBehaviour
+{
+    [SerializeField]
+    private GameObject cubePrefab; // キューブのプレハブ
+
+    [SerializeField]
+    private int numberOfCubes = 1000; // 生成するキューブの数
+
+    void Start()
+    {
+        // DOTSワールドからEntityManagerを取得
+        EntityManager entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
+
+        // プレハブをEntityに変換するための設定
+        GameObjectConversionSettings settings = GameObjectConversionSettings.FromWorld(World.DefaultGameObjectInjectionWorld, null);
+        Entity cubeEntityPrefab = GameObjectConversionUtility.ConvertGameObjectHierarchy(cubePrefab, settings);
+
+        // 指定数のエンティティを生成し、位置を設定
+        for (int i = 0; i < numberOfCubes; i++)
+        {
+            Entity cubeEntity = entityManager.Instantiate(cubeEntityPrefab);
+            // 各キューブの位置を少しずらして配置
+            float3 position = new float3(i % 100, 0, i / 100);
+            entityManager.SetComponentData(cubeEntity, new Translation { Value = position });
+        }
+    }
+}
+
+```
+
+このコードでは、DOTS の EntityManager を使用して、GameObject から変換されたエンティティのプレハブを元に、`numberOfCubes`分のエンティティを生成しています。各エンティティには、`Translation`コンポーネントを付与し、シーン内に整然と配置しています。
+
+### 5.2 システムによるエンティティの更新
+
+次に、生成したエンティティの位置を動的に更新するシステムの例を示します。例えば、すべてのキューブを一定速度で回転させる処理は以下のように実装できます。
+
+```csharp
+using Unity.Entities;
+using Unity.Transforms;
+using Unity.Mathematics;
+
+public partial struct RotationSpeed : IComponentData
+{
+    public float Value;
+}
+
+public partial class RotateSystem : SystemBase
+{
+    protected override void OnUpdate()
+    {
+        // 経過時間を取得
+        float deltaTime = Time.DeltaTime;
+
+        // 各エンティティのRotationを並列処理で更新
+        Entities.ForEach((ref Rotation rotation, in RotationSpeed speed) =>
+        {
+            quaternion deltaRotation = quaternion.AxisAngle(math.up(), speed.Value * deltaTime);
+            rotation.Value = math.normalize(math.mul(rotation.Value, deltaRotation));
+        }).ScheduleParallel();
+    }
+}
+
+```
+
+このシステムでは、各エンティティに付与された `RotationSpeed` コンポーネントの値に応じて、`Rotation` コンポーネントを更新しています。`ScheduleParallel()` を使用することで、複数のスレッドで同時に処理を実行し、効率的にパフォーマンスを向上させています。
+
+## 6. パフォーマンス計測と最適化のヒント
+
+大量のオブジェクトを描画する際には、実装後にしっかりとパフォーマンス計測を行い、ボトルネックを特定することが重要です。以下に、DOTS でのパフォーマンス最適化のためのポイントをいくつか紹介します。
+
+### 6.1 プロファイラーの活用
+
+- **Unity Profiler**
+  Unity の標準プロファイラーを使用して、CPU、GPU、メモリ使用状況を定期的にモニタリングします。DOTS を使用したシステムの実行状況を詳細に把握できるため、どの処理がパフォーマンスのボトルネックになっているかを特定できます。
+- **Entity Debugger**
+  DOTS 特有のツールで、現在シーンに存在するエンティティやコンポーネントの状態を確認できます。大量エンティティの管理状況をリアルタイムに監視するのに役立ちます。
+
+### 6.2 メモリレイアウトの最適化
+
+- **データ局所性**
+  同じ種類のコンポーネントを連続したメモリ領域に配置することで、CPU キャッシュのヒット率を向上させ、処理速度を改善します。
+- **アロケーションの最小化**
+  動的メモリアロケーションを極力避け、必要なメモリは事前に確保することで、ガベージコレクションの影響を最小限に抑えます。
+
+### 6.3 Job System のチューニング
+
+- **ジョブの粒度調整**
+  ジョブの数が多すぎると、ジョブスケジューリングのオーバーヘッドが発生します。逆に、ジョブ単位が大きすぎると並列性が損なわれるため、適切な粒度に調整することが求められます。
+- **依存関係の最適化**
+  ジョブ間の依存関係が複雑になると、パフォーマンス低下の原因となります。できるだけ依存関係をシンプルに保ち、スケジューラが効率良くジョブを処理できるように設計しましょう。
+
+### 6.4 Hybrid Renderer V2 の注意点
+
+Hybrid Renderer V2 を使用する際は、以下の点に注意が必要です。
+
+- **マテリアルとシェーダーの最適化**
+  描画パスやシェーダーの設定が適切でないと、ドローコールが増加する可能性があります。可能な限り統一されたマテリアルを使用するなど、レンダリングパイプラインの最適化を行いましょう。
+- **Culling の適用**
+  視界外のエンティティを描画しないように、適切なカリング（視界外オブジェクトの非表示処理）を実装することで、レンダリング負荷を軽減できます。
+
+## 7. 実装上の注意点とトラブルシューティング
+
+DOTS を用いた開発は、従来の Unity 開発とは異なる設計思想や実装手法が求められます。ここでは、開発中に遭遇しがちな注意点とその対処法をいくつか紹介します。
+
+### 7.1 コンパイルエラーやビルドエラー
+
+- **Burst コンパイルエラー**
+  Burst Compiler は高い最適化を行うため、コード内の一部記述が最適化対象外となる場合があります。公式ドキュメントやエラーメッセージを参照し、対応するコード修正を行いましょう。
+- **EntityManager 関連のエラー**
+  DOTS の API はバージョンアップに伴い変更されることがあるため、使用している Unity やパッケージのバージョンに合わせたコード実装が必要です。
+
+### 7.2 Hybrid Renderer の動作確認
+
+- **エンティティの可視化**
+  Hybrid Renderer V2 では、エンティティが正しく変換され、描画されているかを Entity Debugger で確認することが重要です。エンティティが意図した位置や状態で存在するかを逐次チェックしましょう。
+- **マテリアルの設定**
+  複数のエンティティで同一のマテリアルを使用する場合、マテリアルプロパティの変更が即座に反映されるかどうかを確認することも必要です。
+
+## 8. まとめと今後の展望
+
+Unity DOTS は、大量のオブジェクトを効率的に描画するための強力なツールセットです。
+
+- **ECS** によるデータ駆動設計
+- **Job System** による並列処理
+- **Burst Compiler** による最適化
+- **Hybrid Renderer V2** による GPU 描画の効率化
+
+これらの要素が組み合わさることで、従来の GameObject ベースの手法では達成できなかった高いパフォーマンスが実現されます。
+
+本記事では、DOTS の基本概念、実際の実装例、そしてパフォーマンス最適化のためのヒントを解説しました。今後、Unity は DOTS の機能拡張や改善を続けると予想され、より一層効率的な開発が可能になるでしょう。
+
+大量オブジェクトの描画が求められるプロジェクトにおいて、DOTS は非常に有効な手段です。ぜひ、この記事で紹介した手法を参考に、実際の開発現場で DOTS を活用し、パフォーマンス向上を実感してみてください。
+
+## 参考文献・リンク
+
+https://docs.unity3d.com/DOTS/
+
+https://unity.com/dots
+
+https://docs.unity3d.com/Packages/com.unity.burst@latest
+
+https://docs.unity3d.com/Packages/com.unity.rendering.hybrid@latest
+
+以上、Unity DOTS を用いた大量オブジェクト描画の実践ガイドでした。DOTS の導入は最初はハードルが高く感じられるかもしれませんが、慣れてしまえば非常に強力なツールとなります。今後も、最新の情報を追いながら、より効率的で高性能なアプリケーション開発に挑戦していきましょう。
