@@ -1,0 +1,53 @@
+---
+export interface Params { page: string }
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import PostList from "../../../components/PostList.astro";
+import Pagination from "../../../components/Pagination.astro";
+import { hashTitle } from "../../../utils/hashTitle";
+
+const PER_PAGE = 10;
+
+export async function getStaticPaths() {
+  const PER_PAGE = 10;
+  const postFiles = import.meta.glob('../../../blog/*.{md,mdx}', { eager: true });
+  const total = Object.keys(postFiles).length;
+  const totalPages = Math.ceil(total / PER_PAGE);
+  return Array.from({ length: totalPages }, (_, i) => ({ params: { page: String(i + 1) } }));
+}
+
+const { page } = Astro.params as Params;
+const currentPage = Number(page);
+const postFiles = import.meta.glob('../../../blog/*.{md,mdx}', { eager: true });
+const posts = Object.entries(postFiles).map(([path, mod]) => {
+  const typedMod = mod as {
+    frontmatter: {
+      title: string;
+      date: string;
+      description?: string;
+      slug?: string;
+      categories?: string[];
+      tags?: string[];
+    };
+    Content: any;
+  };
+  const date = typedMod.frontmatter.date.replace(/-/g, '').slice(0, 8);
+  const hash = hashTitle(typedMod.frontmatter.title);
+  const slug = typedMod.frontmatter.slug || `${date}-${hash}`;
+  return { ...typedMod, url: `/blog/${slug}`, slug };
+});
+posts.sort((a, b) => b.frontmatter.date.localeCompare(a.frontmatter.date));
+
+const totalPages = Math.ceil(posts.length / PER_PAGE);
+const paginated = posts.slice((currentPage - 1) * PER_PAGE, currentPage * PER_PAGE);
+
+const pageTitle = `Blog - Page ${currentPage}`;
+---
+<BaseLayout pageTitle={pageTitle}>
+  <div class="max-w-3xl mx-auto px-4 sm:px-8 py-16 w-full">
+    <h1 data-scramble class="text-center text-4xl font-bold mb-16">Blog</h1>
+    <section>
+      <PostList posts={paginated} />
+      <Pagination current={currentPage} total={totalPages} baseUrl="/blog/page" />
+    </section>
+  </div>
+</BaseLayout>
