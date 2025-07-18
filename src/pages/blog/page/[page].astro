@@ -5,10 +5,10 @@ import PostList from "../../../components/PostList.astro";
 import Pagination from "../../../components/Pagination.astro";
 import { hashTitle } from "../../../utils/hashTitle";
 
-const PER_PAGE = 10;
+const PER_PAGE = 5;
 
 export async function getStaticPaths() {
-  const PER_PAGE = 10;
+  const PER_PAGE = 5;
   const postFiles = import.meta.glob('../../../blog/*.{md,mdx}', { eager: true });
   const total = Object.keys(postFiles).length;
   const totalPages = Math.ceil(total / PER_PAGE);
