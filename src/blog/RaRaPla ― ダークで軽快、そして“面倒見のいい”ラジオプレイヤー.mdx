@@ -81,11 +81,13 @@ build.bat
 ## テストと CI：最低限じゃなく“必要十分”寄り
 
 `tests/` には、
-・radiko クライアントの時刻固定テスト、Now/Date/Weekly の分岐、
-・m3u8 書き換えが **相対・絶対 URL ともに** `/seg?...` へ変換されること、
-・既定ポートが埋まっているときの**自動スライド**、
-・Radio Browser の JSON パースと `Channel` 化、
-・ロギングの抑制設定、
+
+- radiko クライアントの時刻固定テスト、Now/Date/Weekly の分岐
+- m3u8 書き換えが **相対・絶対 URL ともに** `/seg?...` へ変換されること
+- 既定ポートが埋まっているときの**自動スライド**
+- Radio Browser の JSON パースと `Channel` 化
+- ロギングの抑制設定
+
 が入っています。GitHub Actions の CI は Windows / Ubuntu で **black / flake8 / mypy(strict) / pytest** を回します。壊したらバレるやつ。
 
 ## ハマりどころと回避策
